@@ -1,6 +1,6 @@
 const WIDTH : number = 700;
 const HEIGHT : number = 700;
-const LINE_SIZE_MULTIPLIER : number = 20;
+const LINE_SIZE : number = 20;
 
 interface Coord2D {
     x : number;
@@ -15,16 +15,23 @@ class Vector2D {
         this.coord = {x : x_coord, y : y_coord};
     }
 
-    multipy(inputNum: number){
-        this.coord.x = this.coord.x * inputNum;
-        this.coord.y = this.coord.y * inputNum;
-    }
-
     //Orthogonal rotation in 2D space
     orthogRotate(){
         let sw =  - this.coord.x;
         this.coord.x = this.coord.y;
         this.coord.y = sw;
+    }
+
+    getCoord(){
+        return {x: this.coord.x, y: this.coord.y}
+    }
+
+    getX(){
+        return this.coord.x;
+    }
+
+    getY(){
+        return this.coord.y;
     }
 
     print(){
@@ -35,16 +42,30 @@ class Vector2D {
 const drawBeginning = () => {
     let c : any = document.getElementById("drawCanvas");
     let ctx : any = c.getContext("2d");  
-    
-    ctx.moveTo(WIDTH/2, HEIGHT/2);
-    ctx.fillText(1, WIDTH/2, HEIGHT/2);  
     return ctx;
 }
 
 const drawSpiral = () => {
     let context : any = drawBeginning();
     let vec : Vector2D = new Vector2D(1,0);
-
+    //We start with the scope at the middle of the screen
+    let scope : Coord2D = {x : WIDTH/2, y: HEIGHT/2};
+    context.beginPath();
+    let lineLength = LINE_SIZE;
+    for (let k : number = 0; k < 10; k ++){
+        //We change the size of the line every 2 strokes
+        for (let i : number = 0; i < 2; i ++){
+            console.log("i: " + i)
+            context.moveTo(scope.x, scope.y);
+            scope.x = scope.x + (vec.getX() * lineLength);
+            scope.y = scope.y + (vec.getY() * lineLength);
+            context.lineTo(scope.x, scope.y);
+        }
+        lineLength = lineLength + LINE_SIZE;
+        console.log("k " + k)
+        vec.orthogRotate();
+    }   
+    context.stroke();
 }
 
 
