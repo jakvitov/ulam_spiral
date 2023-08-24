@@ -1,6 +1,6 @@
 const WIDTH : number = 700;
 const HEIGHT : number = 700;
-const LINE_SIZE : number = 20;
+const LINE_SIZE : number = 30;
 
 interface Coord2D {
     x : number;
@@ -52,18 +52,16 @@ const drawSpiral = () => {
     let scope : Coord2D = {x : WIDTH/2, y: HEIGHT/2};
     context.beginPath();
     let lineLength = LINE_SIZE;
-    for (let k : number = 0; k < 10; k ++){
+    for (let k : number = 0; k < 100; k ++){
         //We change the size of the line every 2 strokes
         for (let i : number = 0; i < 2; i ++){
-            console.log("i: " + i)
             context.moveTo(scope.x, scope.y);
             scope.x = scope.x + (vec.getX() * lineLength);
             scope.y = scope.y + (vec.getY() * lineLength);
             context.lineTo(scope.x, scope.y);
+            vec.orthogRotate();
         }
         lineLength = lineLength + LINE_SIZE;
-        console.log("k " + k)
-        vec.orthogRotate();
     }   
     context.stroke();
 }

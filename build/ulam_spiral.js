@@ -1,6 +1,6 @@
 var WIDTH = 700;
 var HEIGHT = 700;
-var LINE_SIZE = 20;
+var LINE_SIZE = 30;
 //Represents a 2x2 matrix representing a direction in a 2 dimensional eucleidian space
 var Vector2D = /** @class */ (function () {
     function Vector2D(x_coord, y_coord) {
@@ -38,18 +38,16 @@ var drawSpiral = function () {
     var scope = { x: WIDTH / 2, y: HEIGHT / 2 };
     context.beginPath();
     var lineLength = LINE_SIZE;
-    for (var k = 0; k < 10; k++) {
+    for (var k = 0; k < 100; k++) {
         //We change the size of the line every 2 strokes
         for (var i = 0; i < 2; i++) {
-            console.log("i: " + i);
             context.moveTo(scope.x, scope.y);
             scope.x = scope.x + (vec.getX() * lineLength);
             scope.y = scope.y + (vec.getY() * lineLength);
             context.lineTo(scope.x, scope.y);
+            vec.orthogRotate();
         }
         lineLength = lineLength + LINE_SIZE;
-        console.log("k " + k);
-        vec.orthogRotate();
     }
     context.stroke();
 };
