@@ -29,6 +29,7 @@ var Vector2D = /** @class */ (function () {
 var drawBeginning = function () {
     var c = document.getElementById("drawCanvas");
     var ctx = c.getContext("2d");
+    ctx.font = "10px Arial";
     return ctx;
 };
 var drawSpiral = function () {
@@ -36,19 +37,20 @@ var drawSpiral = function () {
     var vec = new Vector2D(1, 0);
     //We start with the scope at the middle of the screen
     var scope = { x: WIDTH / 2, y: HEIGHT / 2 };
-    context.beginPath();
-    var lineLength = LINE_SIZE;
+    var num = 1;
+    //General spiral drawing loop
     for (var k = 0; k < 100; k++) {
-        //We change the size of the line every 2 strokes
+        //We change the size of the line (number of numbers inside)
         for (var i = 0; i < 2; i++) {
-            context.moveTo(scope.x, scope.y);
-            scope.x = scope.x + (vec.getX() * lineLength);
-            scope.y = scope.y + (vec.getY() * lineLength);
-            context.lineTo(scope.x, scope.y);
+            //We draw numbers in a straight line
+            for (var z = 0; z < (k + 1); z++) {
+                context.fillText(num, scope.x, scope.y);
+                scope.x = scope.x + (vec.getX() * (LINE_SIZE));
+                scope.y = scope.y + (vec.getY() * (LINE_SIZE));
+                num += 1;
+            }
             vec.orthogRotate();
         }
-        lineLength = lineLength + LINE_SIZE;
     }
-    context.stroke();
 };
 document.getElementById("drawButton").addEventListener("click", drawSpiral);
