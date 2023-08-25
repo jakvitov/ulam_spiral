@@ -76,10 +76,11 @@ const allSmallerPrimes = (num : number) => {
 }
 
 const drawNumbersInLine = (context : any, num: number, scope : Coord2D, vec : Vector2D, k : number, primes : Array<number>) => {
+    let rectSize=Math.max((lineSize/6), 1)
     for (let z : number = 0; (z < (k + 1)) && (num <= upperLimit) ; z++){
         //context.fillText(num, scope.x, scope.y); 
         if (primes.indexOf(num) != -1){
-            context.fillRect(scope.x, scope.y, 1, 1)
+            context.fillRect(scope.x, scope.y, rectSize, rectSize)
         }
         //The scope is the direction vector transformed by line size
         scope.x = scope.x + (vec.getX() * (lineSize));
