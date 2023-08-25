@@ -1,5 +1,4 @@
-let WIDTH : number = 700;
-let HEIGHT : number = 700;
+let sideSize : number = 700;
 let lineSize : number = 20;
 let upperLimit : number = 100;
 
@@ -43,7 +42,7 @@ class Vector2D {
 const drawBeginning = () => {
     let c : any = document.getElementById("drawCanvas");
     let ctx : any = c.getContext("2d");  
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    ctx.clearRect(0, 0, sideSize, sideSize);
     ctx.font = "10px Arial";
     return ctx;
 }
@@ -94,7 +93,7 @@ const drawSpiral = () => {
     let context : any = drawBeginning();
     let vec : Vector2D = new Vector2D(1,0);
     //We start with the scope at the middle of the screen
-    let scope : Coord2D = {x : WIDTH/2, y: HEIGHT/2};
+    let scope : Coord2D = {x : sideSize/2, y: sideSize/2};
     let num : number = 1;
     let primes = allSmallerPrimes(upperLimit);
     //General spiral drawing loop
@@ -112,15 +111,14 @@ document.getElementById("drawButton").addEventListener("click", drawSpiral)
 document.getElementById("numberInput").addEventListener("input", (ev) => {
     const inputElement = ev.target as HTMLInputElement;
     upperLimit = parseInt(inputElement.value);
-    lineSize = Math.max(Math.floor(Math.min(WIDTH, HEIGHT)/(Math.sqrt(upperLimit))), 1);
+    lineSize = Math.max(Math.floor(sideSize/(Math.sqrt(upperLimit))), 1);
     console.log("Line size: " + lineSize);
     console.log("Upper limit updated: " + upperLimit);
 })
 
 document.getElementById("screenSizeInput").addEventListener("input", (ev) => {
     const inputElement = ev.target as HTMLInputElement;
-    WIDTH = parseInt(inputElement.value);
-    HEIGHT = parseInt(inputElement.value);
-    document.getElementById("drawCanvas").setAttribute("width", WIDTH.toString());
-    document.getElementById("drawCanvas").setAttribute("height", HEIGHT.toString());
+    sideSize = parseInt(inputElement.value);
+    document.getElementById("drawCanvas").setAttribute("width", sideSize.toString());
+    document.getElementById("drawCanvas").setAttribute("height", sideSize.toString());
 })

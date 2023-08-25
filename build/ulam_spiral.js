@@ -1,5 +1,4 @@
-var WIDTH = 700;
-var HEIGHT = 700;
+var sideSize = 700;
 var lineSize = 20;
 var upperLimit = 100;
 //Represents a 2x2 matrix representing a direction in a 2 dimensional eucleidian space
@@ -30,7 +29,7 @@ var Vector2D = /** @class */ (function () {
 var drawBeginning = function () {
     var c = document.getElementById("drawCanvas");
     var ctx = c.getContext("2d");
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    ctx.clearRect(0, 0, sideSize, sideSize);
     ctx.font = "10px Arial";
     return ctx;
 };
@@ -75,7 +74,7 @@ var drawSpiral = function () {
     var context = drawBeginning();
     var vec = new Vector2D(1, 0);
     //We start with the scope at the middle of the screen
-    var scope = { x: WIDTH / 2, y: HEIGHT / 2 };
+    var scope = { x: sideSize / 2, y: sideSize / 2 };
     var num = 1;
     var primes = allSmallerPrimes(upperLimit);
     //General spiral drawing loop
@@ -91,14 +90,13 @@ document.getElementById("drawButton").addEventListener("click", drawSpiral);
 document.getElementById("numberInput").addEventListener("input", function (ev) {
     var inputElement = ev.target;
     upperLimit = parseInt(inputElement.value);
-    lineSize = Math.max(Math.floor(Math.min(WIDTH, HEIGHT) / (Math.sqrt(upperLimit))), 1);
+    lineSize = Math.max(Math.floor(sideSize / (Math.sqrt(upperLimit))), 1);
     console.log("Line size: " + lineSize);
     console.log("Upper limit updated: " + upperLimit);
 });
 document.getElementById("screenSizeInput").addEventListener("input", function (ev) {
     var inputElement = ev.target;
-    WIDTH = parseInt(inputElement.value);
-    HEIGHT = parseInt(inputElement.value);
-    document.getElementById("drawCanvas").setAttribute("width", WIDTH.toString());
-    document.getElementById("drawCanvas").setAttribute("height", HEIGHT.toString());
+    sideSize = parseInt(inputElement.value);
+    document.getElementById("drawCanvas").setAttribute("width", sideSize.toString());
+    document.getElementById("drawCanvas").setAttribute("height", sideSize.toString());
 });
