@@ -32,6 +32,27 @@ var drawBeginning = function () {
     ctx.font = "10px Arial";
     return ctx;
 };
+//Give me all primes up to num using sieve of Eratosthenes
+var allSmallerPrimes = function (num) {
+    var numbers = [];
+    var maxLimit = Math.sqrt(num);
+    var result = [];
+    for (var i = 0; i < num; i++) {
+        numbers.push(true);
+    }
+    for (var k = 2; k < maxLimit; k++) {
+        //The k-th number is prime - we delete all its multipliers
+        if (numbers[k]) {
+            for (var z = k * k; z < num; z += k) {
+                numbers[z] = false;
+            }
+        }
+    }
+    for (var o = 0; o < num; o++) {
+        numbers[o] ? result.push(o) : false;
+    }
+    return result;
+};
 var drawSpiral = function () {
     var context = drawBeginning();
     var vec = new Vector2D(1, 0);
@@ -39,7 +60,7 @@ var drawSpiral = function () {
     var scope = { x: WIDTH / 2, y: HEIGHT / 2 };
     var num = 1;
     //General spiral drawing loop
-    for (var k = 0; k < 100; k++) {
+    for (var k = 0; k < 10; k++) {
         //We change the size of the line (number of numbers inside)
         for (var i = 0; i < 2; i++) {
             //We draw numbers in a straight line
@@ -52,5 +73,6 @@ var drawSpiral = function () {
             vec.orthogRotate();
         }
     }
+    console.log(allSmallerPrimes(100));
 };
 document.getElementById("drawButton").addEventListener("click", drawSpiral);

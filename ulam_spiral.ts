@@ -46,6 +46,31 @@ const drawBeginning = () => {
     return ctx;
 }
 
+//Give me all primes up to num using sieve of Eratosthenes
+const allSmallerPrimes = (num : number) => {
+    let numbers :Array<boolean> = [];
+    let maxLimit : number = Math.sqrt(num);
+    let result : Array<number> = [];
+    
+    for (let i = 0; i < num; i ++){
+        numbers.push(true);
+    }
+
+    for (let k = 2; k < maxLimit; k ++){
+        //The k-th number is prime - we delete all its multipliers
+        if (numbers[k]){
+            for (let z = k * k; z < num; z += k){
+                numbers[z] = false;
+            }
+        }
+    }
+
+    for (let o = 0; o < num; o ++){
+        numbers[o] ? result.push(o) : false;
+    }
+    return result;
+}
+
 const drawSpiral = () => {
     let context : any = drawBeginning();
     let vec : Vector2D = new Vector2D(1,0);
@@ -53,7 +78,7 @@ const drawSpiral = () => {
     let scope : Coord2D = {x : WIDTH/2, y: HEIGHT/2};
     let num : number = 1;
     //General spiral drawing loop
-    for (let k : number = 0; k < 100; k ++){    
+    for (let k : number = 0; k < 10; k ++){    
         //We change the size of the line (number of numbers inside)
         for (let i : number = 0; i < 2; i ++){
             //We draw numbers in a straight line
@@ -65,7 +90,7 @@ const drawSpiral = () => {
             }
             vec.orthogRotate();
         }
-    }   
+    }  
 }
 
 
