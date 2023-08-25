@@ -1,6 +1,6 @@
 const WIDTH : number = 700;
 const HEIGHT : number = 700;
-const LINE_SIZE : number = 30;
+let lineSize : number = 20;
 let upperLimit : number = 100;
 
 
@@ -44,6 +44,7 @@ class Vector2D {
 const drawBeginning = () => {
     let c : any = document.getElementById("drawCanvas");
     let ctx : any = c.getContext("2d");  
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
     ctx.font = "10px Arial";
     return ctx;
 }
@@ -70,26 +71,37 @@ const allSmallerPrimes = (num : number) => {
     for (let o = 0; o < num; o ++){
         numbers[o] ? result.push(o) : false;
     }
+    console.log("All smaller primes to : " + result[result.length - 1])
     return result;
 }
 
+const drawNumbersInLine = (context : any, num: number, scope : Coord2D, vec : Vector2D, k : number, primes : Array<number>) => {
+    for (let z : number = 0; (z < (k + 1)) && (num <= upperLimit) ; z++){
+        context.fillText(num, scope.x, scope.y); 
+        if (primes.indexOf(num) != -1){
+            context.fillRect(scope.x, scope.y, 2, 2)
+        }
+        //The scope is the direction vector transformed by line size
+        scope.x = scope.x + (vec.getX() * (lineSize));
+        scope.y = scope.y + (vec.getY() * (lineSize));
+        num += 1;
+    }
+    return num;
+}
+
 const drawSpiral = () => {
+    console.log("Drawing")
     let context : any = drawBeginning();
     let vec : Vector2D = new Vector2D(1,0);
     //We start with the scope at the middle of the screen
     let scope : Coord2D = {x : WIDTH/2, y: HEIGHT/2};
     let num : number = 1;
+    let primes = allSmallerPrimes(upperLimit);
     //General spiral drawing loop
-    for (let k : number = 0; k < 10; k ++){    
+    for (let k : number = 0; (num <= upperLimit) ; k ++){    
         //We change the size of the line (number of numbers inside)
-        for (let i : number = 0; i < 2; i ++){
-            //We draw numbers in a straight line
-            for (let z : number = 0; (z < (k + 1)) && (num <= upperLimit) ; z++){
-                context.fillText(num, scope.x, scope.y); 
-                scope.x = scope.x + (vec.getX() * (LINE_SIZE));
-                scope.y = scope.y + (vec.getY() * (LINE_SIZE));
-                num += 1;
-            }
+        for (let i : number = 0; (i < 2) && (num <= upperLimit); i ++){
+            num = drawNumbersInLine(context, num, scope, vec, k, primes);
             vec.orthogRotate();
         }
     }  
@@ -100,4 +112,6 @@ document.getElementById("drawButton").addEventListener("click", drawSpiral)
 document.getElementById("numberInput").addEventListener("input", (ev) => {
     const inputElement = ev.target as HTMLInputElement;
     upperLimit = parseInt(inputElement.value);
+    lineSize = Math.min(WIDTH, HEIGHT)/(Math.ceil(Math.sqrt(upperLimit)));
+    console.log("Upper limit updated: " + upperLimit);
 })
