@@ -95,3 +95,10 @@ document.getElementById("numberInput").addEventListener("input", function (ev) {
     console.log("Line size: " + lineSize);
     console.log("Upper limit updated: " + upperLimit);
 });
+document.getElementById("screenSizeInput").addEventListener("input", function (ev) {
+    var inputElement = ev.target;
+    WIDTH = parseInt(inputElement.value);
+    HEIGHT = parseInt(inputElement.value);
+    document.getElementById("drawCanvas").setAttribute("width", WIDTH.toString());
+    document.getElementById("drawCanvas").setAttribute("height", HEIGHT.toString());
+});

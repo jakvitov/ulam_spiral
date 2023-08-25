@@ -1,8 +1,7 @@
-const WIDTH : number = 700;
-const HEIGHT : number = 700;
+let WIDTH : number = 700;
+let HEIGHT : number = 700;
 let lineSize : number = 20;
 let upperLimit : number = 100;
-
 
 interface Coord2D {
     x : number;
@@ -116,4 +115,12 @@ document.getElementById("numberInput").addEventListener("input", (ev) => {
     lineSize = Math.max(Math.floor(Math.min(WIDTH, HEIGHT)/(Math.sqrt(upperLimit))), 1);
     console.log("Line size: " + lineSize);
     console.log("Upper limit updated: " + upperLimit);
+})
+
+document.getElementById("screenSizeInput").addEventListener("input", (ev) => {
+    const inputElement = ev.target as HTMLInputElement;
+    WIDTH = parseInt(inputElement.value);
+    HEIGHT = parseInt(inputElement.value);
+    document.getElementById("drawCanvas").setAttribute("width", WIDTH.toString());
+    document.getElementById("drawCanvas").setAttribute("height", HEIGHT.toString());
 })
