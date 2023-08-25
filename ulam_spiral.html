@@ -9,8 +9,11 @@
 <body>
     <h1>Ulam spiral generator</h1>
     <button id="drawButton">Draw!</button>
+    
+    <label for="numberInput">Enter upper limit: </label>
+    <input id="numberInput" type="number" name="numberInput" value="100" min="10" step="50"/>
+
     <canvas width="700" height="700" id="drawCanvas"></canvas>
     <script src="./build/ulam_spiral.js"></script>
-
 </body>
 </html>

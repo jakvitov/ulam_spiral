@@ -1,6 +1,8 @@
 const WIDTH : number = 700;
 const HEIGHT : number = 700;
 const LINE_SIZE : number = 30;
+let upperLimit : number = 100;
+
 
 interface Coord2D {
     x : number;
@@ -82,7 +84,7 @@ const drawSpiral = () => {
         //We change the size of the line (number of numbers inside)
         for (let i : number = 0; i < 2; i ++){
             //We draw numbers in a straight line
-            for (let z : number = 0; z < (k + 1); z++){
+            for (let z : number = 0; (z < (k + 1)) && (num <= upperLimit) ; z++){
                 context.fillText(num, scope.x, scope.y); 
                 scope.x = scope.x + (vec.getX() * (LINE_SIZE));
                 scope.y = scope.y + (vec.getY() * (LINE_SIZE));
@@ -95,3 +97,7 @@ const drawSpiral = () => {
 
 
 document.getElementById("drawButton").addEventListener("click", drawSpiral)
+document.getElementById("numberInput").addEventListener("input", (ev) => {
+    const inputElement = ev.target as HTMLInputElement;
+    upperLimit = parseInt(inputElement.value);
+})

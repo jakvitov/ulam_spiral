@@ -1,6 +1,7 @@
 var WIDTH = 700;
 var HEIGHT = 700;
 var LINE_SIZE = 30;
+var upperLimit = 100;
 //Represents a 2x2 matrix representing a direction in a 2 dimensional eucleidian space
 var Vector2D = /** @class */ (function () {
     function Vector2D(x_coord, y_coord) {
@@ -64,7 +65,7 @@ var drawSpiral = function () {
         //We change the size of the line (number of numbers inside)
         for (var i = 0; i < 2; i++) {
             //We draw numbers in a straight line
-            for (var z = 0; z < (k + 1); z++) {
+            for (var z = 0; (z < (k + 1)) && (num < upperLimit); z++) {
                 context.fillText(num, scope.x, scope.y);
                 scope.x = scope.x + (vec.getX() * (LINE_SIZE));
                 scope.y = scope.y + (vec.getY() * (LINE_SIZE));
@@ -73,6 +74,9 @@ var drawSpiral = function () {
             vec.orthogRotate();
         }
     }
-    console.log(allSmallerPrimes(100));
 };
 document.getElementById("drawButton").addEventListener("click", drawSpiral);
+document.getElementById("numberInput").addEventListener("input", function (ev) {
+    var inputElement = ev.target;
+    upperLimit = parseInt(inputElement.value);
+});
