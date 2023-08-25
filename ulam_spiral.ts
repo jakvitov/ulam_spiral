@@ -77,9 +77,9 @@ const allSmallerPrimes = (num : number) => {
 
 const drawNumbersInLine = (context : any, num: number, scope : Coord2D, vec : Vector2D, k : number, primes : Array<number>) => {
     for (let z : number = 0; (z < (k + 1)) && (num <= upperLimit) ; z++){
-        context.fillText(num, scope.x, scope.y); 
+        //context.fillText(num, scope.x, scope.y); 
         if (primes.indexOf(num) != -1){
-            context.fillRect(scope.x, scope.y, 2, 2)
+            context.fillRect(scope.x, scope.y, 1, 1)
         }
         //The scope is the direction vector transformed by line size
         scope.x = scope.x + (vec.getX() * (lineSize));
@@ -112,6 +112,7 @@ document.getElementById("drawButton").addEventListener("click", drawSpiral)
 document.getElementById("numberInput").addEventListener("input", (ev) => {
     const inputElement = ev.target as HTMLInputElement;
     upperLimit = parseInt(inputElement.value);
-    lineSize = Math.min(WIDTH, HEIGHT)/(Math.ceil(Math.sqrt(upperLimit)));
+    lineSize = Math.max(Math.floor(Math.min(WIDTH, HEIGHT)/(Math.sqrt(upperLimit))), 1);
+    console.log("Line size: " + lineSize);
     console.log("Upper limit updated: " + upperLimit);
 })
